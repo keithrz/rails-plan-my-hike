@@ -42,8 +42,14 @@ end
 # gem 'capistrano', group: :development
 
 # rspec
-group :test, :development do
+group :development, :test do
   gem "rspec-rails", "~> 2.14.1"
+  gem 'factory_girl_rails', "~> 4.3.0"
+  #gem 'debugger'
+end
+
+group :test do
+  gem 'faker', "~> 1.2.0"
   gem "capybara", "~> 2.2.1"
-#  gem 'debugger'
+  gem 'launchy', "~> 2.4.2"
 end
