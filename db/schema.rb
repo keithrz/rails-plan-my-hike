@@ -14,10 +14,10 @@
 ActiveRecord::Schema.define(version: 20140202215802) do
 
   create_table "trail_points", force: true do |t|
-    t.string   "title"
+    t.string   "name"
     t.text     "description"
-    t.integer  "position_mile_pct"
-    t.integer  "elevation_ft"
+    t.integer  "position_mile_pct", null: false
+    t.integer  "elevation_ft",      null: false
     t.integer  "trail_section_id"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -26,9 +26,9 @@ ActiveRecord::Schema.define(version: 20140202215802) do
   add_index "trail_points", ["trail_section_id"], name: "index_trail_points_on_trail_section_id"
 
   create_table "trail_resupplies", force: true do |t|
-    t.string   "name"
+    t.string   "name",            null: false
     t.text     "description"
-    t.integer  "offset_mile_pct"
+    t.integer  "offset_mile_pct", null: false
     t.integer  "trail_point_id"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -37,11 +37,11 @@ ActiveRecord::Schema.define(version: 20140202215802) do
   add_index "trail_resupplies", ["trail_point_id"], name: "index_trail_resupplies_on_trail_point_id"
 
   create_table "trail_sections", force: true do |t|
-    t.string   "name"
+    t.string   "name",              null: false
     t.text     "description"
-    t.integer  "mile_pct"
-    t.integer  "elevation_diff_ft"
-    t.integer  "trail_id"
+    t.integer  "mile_pct",          null: false
+    t.integer  "elevation_diff_ft", null: false
+    t.integer  "trail_id",          null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -49,34 +49,34 @@ ActiveRecord::Schema.define(version: 20140202215802) do
   add_index "trail_sections", ["trail_id"], name: "index_trail_sections_on_trail_id"
 
   create_table "trails", force: true do |t|
-    t.string   "name"
-    t.string   "abbrev"
+    t.string   "name",        null: false
+    t.string   "abbrev",      null: false
     t.text     "description"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "trip_sections", force: true do |t|
-    t.integer  "duration_hours"
+    t.integer  "duration_hours",          null: false
     t.integer  "extra_mile_pct"
     t.integer  "extra_elevation_diff_ft"
     t.decimal  "different_pace_mph"
     t.integer  "rest_hours"
     t.integer  "trip_id"
-    t.integer  "section_id"
+    t.integer  "trail_section_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "trip_sections", ["section_id"], name: "index_trip_sections_on_section_id"
+  add_index "trip_sections", ["trail_section_id"], name: "index_trip_sections_on_trail_section_id"
   add_index "trip_sections", ["trip_id"], name: "index_trip_sections_on_trip_id"
 
   create_table "trips", force: true do |t|
-    t.string   "name"
+    t.string   "name",                         null: false
     t.text     "description"
-    t.date     "start_date"
-    t.decimal  "pace_mph"
-    t.integer  "day_length_hours"
+    t.date     "start_date",                   null: false
+    t.decimal  "pace_mph",                     null: false
+    t.integer  "day_length_hours", default: 8
     t.datetime "created_at"
     t.datetime "updated_at"
   end

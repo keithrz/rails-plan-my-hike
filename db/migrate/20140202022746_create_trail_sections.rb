@@ -1,12 +1,12 @@
 class CreateTrailSections < ActiveRecord::Migration
   def change
     create_table :trail_sections do |t|
-      t.string :name
-      t.text :description
-      t.integer :mile_pct
-      t.integer :elevation_diff_ft
+      t.string :name, null: false
+      t.text :description, null: true
+      t.integer :mile_pct, null: false
+      t.integer :elevation_diff_ft, null: false
 
-      t.belongs_to :trail, index: true
+      t.belongs_to :trail, index: true, null: false
 
       t.timestamps
     end
