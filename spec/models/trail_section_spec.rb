@@ -20,4 +20,22 @@ describe TrailSection do
   it "is invalid without a trail" do
     build(:trail_section, trail: nil).should_not be_valid
   end
+
+  context "with 2 or more points" do
+    it "orders them in order of mile position" do
+      trail_section = create(:trail_section)
+      trail_point1 = create(:trail_point, trail_section: trail_section, position_mile_pct: 1020)
+      trail_point2 = create(:trail_point, trail_section: trail_section, position_mile_pct: 930)
+      expect(trail_section.reload.trail_points).to eq([trail_point2, trail_point1])
+    end
+  end
+
+  it "destroys child orphan points if it is deleted" do
+    trail_section = create(:trail_section)
+    trail_point1 = create(:trail_point, trail_section: trail_section)
+    trail_point2 = create(:trail_point, trail_section: trail_section)
+    TrailPoint.count() == 2
+    trail_section.destroy!
+    TrailPoint.count() == 0
+  end
 end

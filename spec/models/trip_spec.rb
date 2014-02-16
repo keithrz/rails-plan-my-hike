@@ -20,4 +20,13 @@ describe Trip do
   it "has a default length of the day when not specified" do
     build(:trip, day_length_hours: nil).day_length_hours == 8
   end
+
+  it "destroys child orphan sections if it is deleted" do
+    trip = create(:trip)
+    create(:trip_section, trip: trip)
+    create(:trip_section, trip: trip)
+    TripSection.count() == 2
+    trip.destroy!
+    TripSection.count() == 0
+  end
 end

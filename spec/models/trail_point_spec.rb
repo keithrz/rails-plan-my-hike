@@ -26,4 +26,13 @@ describe TrailPoint do
   it "is invalid without a trail section" do
     build(:trail_point, trail_section: nil).should_not be_valid
   end
+
+  it "destroys child orphan trail resupplies if it is deleted" do
+    trail_point = create(:trail_point)
+    trail_resupply1 = create(:trail_resupply, trail_point: trail_point)
+    trail_resupply2 = create(:trail_resupply, trail_point: trail_point)
+    TrailResupply.count() == 2
+    trail_point.destroy!
+    TrailResupply.count() == 0
+  end
 end
